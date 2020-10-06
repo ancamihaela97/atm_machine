@@ -51,12 +51,9 @@ public class AccountService {
 
         if(!param1.isEmpty() && !param2.isEmpty()) {
             try{
-            Matcher matcherCard = VALID_CARD_NR.matcher(param1);
-            Matcher matcherPin = VALID_PIN.matcher(param2);
-
-            if (matcherCard.find() && matcherPin.find()) {
+            if (validateData(param1, VALID_CARD_NR) && validateData(param2, VALID_PIN)) {
                 List<Account> accountList = accountRepository.findAll();
-                accountList.stream().forEach(i -> {
+                accountList.forEach(i -> {
                     if (i.getCard().equals(param1) && i.getPin().equals(param2)) {
                         session.setAttribute("currentAccount", i);
                         result[0] = "menu.html";
@@ -80,14 +77,13 @@ public class AccountService {
 
         return result[0];
     }
-    private String withdrawMoney( String param1,HttpSession session){
+    private String withdrawMoney( String param1,HttpSession session){ //made this method public in order to access it in the tests
         Account account= (Account) session.getAttribute("currentAccount");
 
         if(param1!= null) {
             try{
                 if(!param1.isEmpty()){
-                    Matcher matcherDouble = VALID_DOUBLE.matcher(param1);
-                    if (!matcherDouble.find()){
+                    if (!validateData(param1, VALID_DOUBLE)){
                         withdrawMessage = "Failed";
                     }
                     else if(Double.parseDouble(param1) > account.getBalance()) {
@@ -118,10 +114,14 @@ public class AccountService {
  private String balance(){
         return "balance.html";
     }
-    private String goBack(){
+    public String goBack(){
 
         return "index.html";
     }
 
+    public boolean validateData(String parameter, Pattern pattern){
+        Matcher matcherData = pattern.matcher(parameter);
+        return matcherData.find();
+    }
 
 }
