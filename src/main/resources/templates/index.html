@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+</head>
+<body>
+<div class="container">
+    <div class="row">
+        <div class="col-md-4"></div>
+        <div class="col-md-4">
+        <legend class="text-center">Welcome to ATM!</legend>
+        </div>
+        <div class="col-md-4"></div>
+    </div>
+    <div class="row">
+        <div class="col-md-4"></div>
+        <div class="col-md-4">
+            <form th:action="@{/}"  method="post" >
+                <fieldset>
+                    <input id="actionType" class="form-control" type="hidden"  th:value="register" th:name="actionType">
+                    <div class="form-group">
+                        <label for="card">Credit card information:</label>
+                        <input id="card" class="form-control" type="text"  th:name="param1">
+                    </div>
+                    <div class="form-group">
+                        <label for="pin">PIN:</label>
+                        <input id="pin" class="form-control" type="password"  th:name="param2">
+
+                    </div>
+                    <div class="form-group float-right">
+                        <input class="btn btn-primary btn-lg btn-block" type="submit" value="Submit">
+                    </div>
+                </fieldset>
+            </form>
+        </div>
+        <div class="col-md-4"></div>
+    </div>
+    <div class="row">
+        <div class="col-md-4"></div>
+        <div class="col-md-5">
+            <div th:if="${session.loginMessage != null}" class="alert alert-danger" >
+            <p th:text="${session.loginMessage}" >[...]</p>
+            </div>
+        </div>
+        <div class="col-md-3"></div>
+    </div>
+</div>
+</body>
+</html>
